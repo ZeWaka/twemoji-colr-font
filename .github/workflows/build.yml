@@ -15,61 +15,15 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
+        # Only Chromium (WebView2/CEF) is targeted, so ship COLRv1 as WOFF2.
+        # The intermediate TTF is published too (e.g. for gen-segoeui.py).
         include:
-          - { file: "Twemoji_Glyf.ttf", family: "Twemoji - Glyf", color: glyf }
           - {
-              file: "Twemoji_GlyfColr0.ttf",
-              family: "Twemoji - GlyfColr0",
-              color: glyf_colr_0,
-            }
-          - {
-              file: "Twemoji_GlyfColr1.ttf",
+              file: "Twemoji_GlyfColr1.woff2",
+              ttf: "Twemoji_GlyfColr1.ttf",
               family: "Twemoji - GlyfColr1",
               color: glyf_colr_1,
             }
-          - {
-              file: "Twemoji_CffColr0.otf",
-              family: "Twemoji - CffColr0",
-              color: cff_colr_0,
-            }
-          # The CI is slow enough
-          # - {
-          #     file: "Twemoji_CffColr1.otf",
-          #     family: "Twemoji - CffColr1",
-          #     color: cff_colr_1,
-          #   }
-          # - {
-          #     file: "Twemoji_Cff2Colr0.otf",
-          #     family: "Twemoji - Cff2Colr0",
-          #     color: cff2_colr_0,
-          #   }
-          # - {
-          #     file: "Twemoji_Cff2Colr1.otf",
-          #     family: "Twemoji - Cff2Colr1",
-          #     color: cff2_colr_1,
-          #   }
-          # - {
-          #     file: "Twemoji_Picosvg.ttf",
-          #     family: "Twemoji - Picosvg",
-          #     color: picosvg,
-          #   }
-          # - {
-          #     file: "Twemoji_Picosvgz.ttf",
-          #     family: "Twemoji - Picosvgz",
-          #     color: picosvgz,
-          #   }
-          # - {
-          #     file: "Twemoji_Untouchedsvg.ttf",
-          #     family: "Twemoji - Untouchedsvg",
-          #     color: untouchedsvg,
-          #   }
-          # - {
-          #     file: "Twemoji_Untouchedsvgz.ttf",
-          #     family: "Twemoji - Untouchedsvgz",
-          #     color: untouchedsvgz,
-          #   }
-          # - { file: "Twemoji_Cbdt.ttf", family: "Twemoji - Cbdt", color: cbdt }
-          # - { file: "Twemoji_Sbix.ttf", family: "Twemoji - Sbix", color: sbix }
 
     steps:
       - uses: actions/checkout@v4
@@ -85,7 +39,9 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: ${{matrix.file}}
-          path: "build/${{matrix.file}}"
+          path: |
+            build/${{matrix.file}}
+            build/${{matrix.ttf}}
 
   create-release:
     needs: [build]
