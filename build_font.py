@@ -31,6 +31,12 @@ def _make_config(
 output_file = {json.dumps(output_name)}
 color_format = "{color_format}"
 family = {json.dumps(family)}
+# Half of nanoemoji's 1024-unit defaults: 512 units are plenty for emoji and
+# keep more outline deltas within a single byte, shrinking glyf noticeably.
+upem = 512
+width = 638
+ascender = 475
+descender = -125
 
 [axis.wght]
 name = "Weight"

@@ -15,14 +15,15 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        # Only Chromium (WebView2/CEF) is targeted, so ship COLRv1 as WOFF2.
+        # Only Chromium (WebView2/CEF) is targeted. Twemoji uses flat colors
+        # only, so COLRv0 renders identically to COLRv1 and is much smaller.
         # The intermediate TTF is published too (e.g. for gen-segoeui.py).
         include:
           - {
-              file: "Twemoji_GlyfColr1.woff2",
-              ttf: "Twemoji_GlyfColr1.ttf",
-              family: "Twemoji - GlyfColr1",
-              color: glyf_colr_1,
+              file: "Twemoji_GlyfColr0.woff2",
+              ttf: "Twemoji_GlyfColr0.ttf",
+              family: "Twemoji - GlyfColr0",
+              color: glyf_colr_0,
             }
 
     steps:
